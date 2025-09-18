@@ -1,58 +1,72 @@
-// Code
-//
-// Inline and block-level code snippets. Includes tweaks to syntax highlighted
-// snippets from Pygments/Rouge and Gist embeds.
+/* --- GitHub-like Code Styles (Rouge compatible) — Inline Subtle Background --- */
+:root {
+  --gh-code-bg: #f6f8fa;   /* light block bg */
+  --gh-code-fg: #24292e;
+  --gh-code-border: #d0d7de;
 
-code,
-pre {
-  font-family: var(--code-font);
+  --inline-bg: rgba(175,184,193,.2);   /* light inline bg */
+  --inline-border: rgba(31,35,40,.15);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gh-code-bg: #0d1117; /* dark block bg */
+    --gh-code-fg: #c9d1d9;
+    --gh-code-border: #30363d;
+
+    --inline-bg: rgba(110,118,129,.3); /* dark inline bg */
+    --inline-border: #30363d;
+  }
 }
 
-code {
+code, pre {
+  font-family: var(--code-font, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace);
+}
+
+/* inline code: 깃허브 스타일 알약 */
+:not(pre) > code,
+:not(pre) > code.highlighter-rouge {
   font-size: 85%;
+  background: var(--inline-bg) !important;
+  color: inherit;
+  padding: 0.15em 0.4em;
+  border: 1px solid var(--inline-border);
+  border-radius: 6px;
 }
 
+/* block code */
 pre {
   display: block;
   margin-top: 0;
-  margin-bottom: var(--spacer-3);
+  margin-bottom: var(--spacer-3, 1rem);
   overflow: auto;
+  background: var(--gh-code-bg);
+  color: var(--gh-code-fg);
+  border: 1px solid var(--gh-code-border);
+  border-radius: 6px;
+  padding: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  tab-size: 2;
 }
 
+/* wrapper */
 .highlight {
-  padding: var(--spacer);
-  margin-bottom: var(--spacer);
-  background-color: var(--code-bg);
-  border-radius: var(--border-radius);
-
-  pre {
-    margin-bottom: 0;
-  }
-
-  // Triple backticks (code fencing) doubles the .highlight elements
-  .highlight {
-    padding: 0;
-  }
+  padding: 0;
+  margin-bottom: var(--spacer, 1rem);
+  background: transparent;
+  border-radius: 6px;
 }
+.highlight pre { margin-bottom: 0; }
 
-.rouge-table {
-  margin-bottom: 0;
-  font-size: 100%;
+/* 토큰 배경 제거 */
+.highlight code span { background: none !important; padding: 0 !important; box-shadow: none !important; }
 
-  &,
-  td,
-  th {
-    border: 0;
-  }
+/* Rouge line numbers */
+.rouge-table { margin-bottom: 0; font-size: 0.9rem; border-collapse: collapse; }
+.rouge-table td, .rouge-table th { border: 0; padding: 0; }
+.rouge-table .gutter { vertical-align: top; user-select: none; opacity: .6; padding-right: 1em; border-right: 1px solid var(--gh-code-border); }
 
-  .gutter {
-    vertical-align: top;
-    user-select: none;
-    opacity: .25;
-  }
-}
+/* .rouge-table .gutter { display: none; } */
 
-// Gist via GitHub Pages
-.gist .markdown-body {
-  padding: 15px !important;
-}
+/* Gist */
+.gist .markdown-body { padding: 15px !important; }
